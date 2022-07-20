@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:HeaderedScrollViewer.ViewModels"
+        xmlns:local="using:HeaderedScrollViewer.Views"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="320" Height="400"
+        x:Class="HeaderedScrollViewer.Views.MainWindow"
+        x:CompileBindings="True"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="HeaderedScrollViewer">
+    <Window.Styles>
+        <Style Selector="TextBlock.main-header">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style Selector="TextBlock.header">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+    </Window.Styles>
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DockPanel Margin="12">
+        <!-- Set Text binding's TargetNullValue as the first header text. -->
+        <TextBlock x:Name="CurrentHeaderTextBlock" DockPanel.Dock="Top" 
+                   Classes="main-header"
+                   Text="{Binding CurrentHeaderText, TargetNullValue='Header 1'}"
+                   Margin="0,0,0,8"/>
+        
+        <ScrollViewer x:Name="ScrollViewer"
+                      HorizontalScrollBarVisibility="Disabled" 
+                      local:HeaderedScrollViewer.TargetHeader="header"
+                      local:HeaderedScrollViewer.CurrentHeaderText="{Binding CurrentHeaderText, Mode=OneWayToSource}">
+            <StackPanel Orientation="Vertical" Spacing="12">
+                <!-- No header text for first header; the CurrentHeaderText will be null at this position. -->
+                <Button>Header 1 Item</Button>
+                
+                <TextBlock Classes="header">Header 2</TextBlock>
+                <ComboBox SelectedIndex="0">
+                    <ComboBoxItem>Header 2 Item - 1</ComboBoxItem>
+                    <ComboBoxItem>Header 2 Item - 2</ComboBoxItem>
+                    <ComboBoxItem>Header 2 Item - 3</ComboBoxItem>
+                </ComboBox>
+                
+                <TextBlock Classes="header">Header 3</TextBlock>
+                <TextBox Watermark="Header 3 Item"/>
+                
+                <TextBlock Classes="header">Header 4</TextBlock>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Spacing="8">
+                    <Ellipse Fill="Red" Width="60" Height="60" HorizontalAlignment="Left"/>
+                    <Polygon Fill="Blue" Points="30,0 0,60 60,60" HorizontalAlignment="Left"/>
+                    <Rectangle Fill="Orange" Width="60" Height="120" HorizontalAlignment="Left"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
