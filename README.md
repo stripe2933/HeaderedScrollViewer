@@ -18,7 +18,7 @@ Avalonia Attached Property for showing current header in the ScrollViewer.
     - Content for header 3
     
 ```xaml
-<ScrollViewer x:Name="ScrollViewer"
+<ScrollViewer x:Name="sv"
               HorizontalScrollBarVisibility="Disabled" 
               >
     <StackPanel Orientation="Vertical" Spacing="12">
@@ -50,15 +50,11 @@ Avalonia Attached Property for showing current header in the ScrollViewer.
 ```xaml
 <ScrollViewer ... local:HeaderedScrollViewer.TargetHeader="header"> ...
 ```
-              
-4. Bind your CurrentHeaderText into VM's string? property (the null value means the current header is first header text that you do not create). I set the property name as `CurrentHeaderText`.
 
+4. Use `CurrentHeaderText` property in other controls, such as 
 ```xaml
-<ScrollViewer ... local:HeaderedScrollViewer.TargetHeader="header" 
-                  local:HeaderedScrollViewer.CurrentHeaderText="{Binding CurrentHeaderText, Mode=OneWayToSource}"> ...
+<TextBlock Text="{Binding #sv.(local:HeaderedScrollViewer.CurrentHeaderText), TargetNullValue='Header 1'}"/> <!-- set the TargetNullValue as the first header that intentionally deleted -->
 ```
-
-5. Use the property!
 
 ## Example
 
@@ -95,15 +91,14 @@ The source code is in solution file.
 
     <DockPanel Margin="12">
         <!-- Set Text binding's TargetNullValue as the first header text. -->
-        <TextBlock x:Name="CurrentHeaderTextBlock" DockPanel.Dock="Top" 
+        <TextBlock DockPanel.Dock="Top" 
                    Classes="main-header"
-                   Text="{Binding CurrentHeaderText, TargetNullValue='Header 1'}"
+                   Text="{Binding #sv.(local:HeaderedScrollViewer.CurrentHeaderText), TargetNullValue='Header 1'}"
                    Margin="0,0,0,8"/>
         
-        <ScrollViewer x:Name="ScrollViewer"
+        <ScrollViewer x:Name="sv"
                       HorizontalScrollBarVisibility="Disabled" 
                       local:HeaderedScrollViewer.TargetHeader="header"
-                      local:HeaderedScrollViewer.CurrentHeaderText="{Binding CurrentHeaderText, Mode=OneWayToSource}">
             <StackPanel Orientation="Vertical" Spacing="12">
                 <!-- No header text for first header; the CurrentHeaderText will be null at this position. -->
                 <Button>Header 1 Item</Button>
@@ -129,25 +124,6 @@ The source code is in solution file.
     </DockPanel>
 </Window>
 
-```
-
-`MainWindowViewModel.cs` (inside `ViewModels` folder)
-```c#
-using ReactiveUI;
-
-namespace HeaderedScrollViewer.ViewModels
-{
-    public class MainWindowViewModel : ViewModelBase
-    {
-        private string? _currentHeaderText;
-
-        public string? CurrentHeaderText
-        {
-            get => _currentHeaderText;
-            set => this.RaiseAndSetIfChanged(ref _currentHeaderText, value);
-        }
-    }
-}
 ```
 
 The result is same as the above GIF file.
