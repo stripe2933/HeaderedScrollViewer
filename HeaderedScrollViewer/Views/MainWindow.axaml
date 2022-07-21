@@ -27,15 +27,14 @@
 
     <DockPanel Margin="12">
         <!-- Set Text binding's TargetNullValue as the first header text. -->
-        <TextBlock x:Name="CurrentHeaderTextBlock" DockPanel.Dock="Top" 
+        <TextBlock DockPanel.Dock="Top" 
                    Classes="main-header"
-                   Text="{Binding CurrentHeaderText, TargetNullValue='Header 1'}"
+                   Text="{Binding #sv.(local:HeaderedScrollViewer.CurrentHeaderText), TargetNullValue='Header 1'}"
                    Margin="0,0,0,8"/>
         
-        <ScrollViewer x:Name="ScrollViewer"
+        <ScrollViewer x:Name="sv"
                       HorizontalScrollBarVisibility="Disabled" 
-                      local:HeaderedScrollViewer.TargetHeader="header"
-                      local:HeaderedScrollViewer.CurrentHeaderText="{Binding CurrentHeaderText, Mode=OneWayToSource}">
+                      local:HeaderedScrollViewer.TargetHeader="header">
             <StackPanel Orientation="Vertical" Spacing="12">
                 <!-- No header text for first header; the CurrentHeaderText will be null at this position. -->
                 <Button>Header 1 Item</Button>
