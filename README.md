@@ -127,3 +127,8 @@ The source code is in solution file.
 ```
 
 The result is same as the above GIF file.
+
+### Usage Example
+
+[Todo.Avalonia](https://github.com/stripe2933/Todo.Avalonia)
+![Todo.Avalonia](https://user-images.githubusercontent.com/63503910/180939386-40ff8574-cfb2-4260-9821-e0ccfa9a700f.gif)
